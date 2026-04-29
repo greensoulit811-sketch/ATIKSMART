@@ -50,6 +50,7 @@ const emptyForm = (): Omit<LandingPage, 'id' | 'created_at' | 'updated_at'> => (
   section4_subtitle: '',
   section4_image: '',
   section4_cta_text: '',
+  section5_image: '',
 });
 
 export default function AdminLandingPages() {
@@ -96,6 +97,7 @@ export default function AdminLandingPages() {
       section4_subtitle: p.section4_subtitle || '',
       section4_image: p.section4_image || '',
       section4_cta_text: p.section4_cta_text || '',
+      section5_image: p.section5_image || '',
     });
     setIsOpen(true);
   };
@@ -484,6 +486,21 @@ export default function AdminLandingPages() {
                   <label className="text-sm font-medium">Certificate/Guarantee Image</label>
                   <ImageUpload value={form.section4_image || ''} onChange={v => setForm(prev => ({ ...prev, section4_image: v }))} folder="landing-pages" />
                   <p className="text-xs text-muted-foreground mt-2">Upload a certificate or guarantee badge image.</p>
+                </div>
+              </div>
+            </section>
+
+            {/* 7.75 Section 5 (Full Width Banner) */}
+            <section className="space-y-4 bg-secondary/10 p-4 rounded-xl">
+              <div className="flex items-center gap-2 border-b pb-2">
+                <Palette className="h-5 w-5 text-accent" />
+                <h3 className="font-semibold uppercase text-sm tracking-wider">Full Width Banner (Section 5)</h3>
+              </div>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Banner Image</label>
+                  <ImageUpload value={form.section5_image || ''} onChange={v => setForm(prev => ({ ...prev, section5_image: v }))} folder="landing-pages" />
+                  <p className="text-xs text-muted-foreground mt-2">Upload a promotional banner image that will appear between the Quality Guarantee and Pricing Packages.</p>
                 </div>
               </div>
             </section>
