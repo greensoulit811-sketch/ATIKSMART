@@ -626,6 +626,7 @@ import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ShoppingBag, ShieldCheck, Truck, ArrowRight, Zap, Phone, CheckCircle2, ChevronRight, Minus, Plus, Search, User, Facebook, Instagram, Twitter, Youtube, Timer } from 'lucide-react';
 import { toast } from 'sonner';
+import { trackViewContent, trackInitiateCheckout } from '@/lib/facebook-pixel';
 
 // --- Luxury Minimalist Theme ---
 
@@ -735,7 +736,29 @@ export default function LandingPageView() {
 
    useEffect(() => {
       if (products.length > 0 && !selectedProduct) setSelectedProduct(products[0]);
+      
+      // Track ViewContent when products are loaded for this landing page
+      if (products.length > 0) {
+         trackViewContent({
+            contentId: products[0].id,
+            contentName: products[0].name,
+            value: products[0].sale_price ?? products[0].price,
+            currency: settings?.currency_code || 'BDT'
+         });
+      }
    }, [products]);
+
+   // Track InitiateCheckout when someone clicks to order or scroll to form
+   const handleInitiateCheckout = () => {
+      if (selectedProduct) {
+         trackInitiateCheckout({
+            numItems: 1,
+            value: selectedProduct.sale_price ?? selectedProduct.price,
+            currency: settings?.currency_code || 'BDT'
+         });
+      }
+      scrollToCheckout();
+   };
 
    useEffect(() => {
       if (shippingMethods.length > 0 && !formData.shippingMethodId) {
@@ -957,7 +980,7 @@ export default function LandingPageView() {
                   {/* Bottom: CTA Buttons */}
                   <div className="w-full lg:col-span-2 flex flex-col sm:flex-row items-center justify-center gap-4 -pt-10 lg:pt-0">
                      <Button 
-                        onClick={scrollToCheckout} 
+                        onClick={handleInitiateCheckout} 
                         className="shimmer-btn w-full max-w-[380px] min-h-[3.5rem] bg-[#c2410c] hover:bg-[#a6340a] text-white rounded-lg text-lg font-black transition-all flex items-center justify-center gap-3 group shadow-xl shadow-orange-900/10"
                      >
                         {pageToRender.section2_cta_text || 'অর্ডার করতে চাই'}
@@ -1011,7 +1034,7 @@ export default function LandingPageView() {
                </div>
 
                <div className="text-center">
-                  <Button onClick={scrollToCheckout} className="h-14 px-16 w-full max-w-[380px] bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-lg font-black transition-all shadow-[0_20px_40px_-10px_rgba(234,88,12,0.3)] hover:scale-105 active:scale-95">
+                  <Button onClick={handleInitiateCheckout} className="h-14 px-16 w-full max-w-[380px] bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-lg font-black transition-all shadow-[0_20px_40px_-10px_rgba(234,88,12,0.3)] hover:scale-105 active:scale-95">
                      অর্ডার করতে চাই
                   </Button>
                </div>
@@ -1057,7 +1080,7 @@ export default function LandingPageView() {
                )}
 
                <div className="-pt-4">
-                  <Button onClick={scrollToCheckout} className="h-14 px-12 w-full max-w-[380px] bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-lg font-black transition-all shadow-xl shadow-orange-200 flex items-center justify-center gap-3 mx-auto group">
+                  <Button onClick={handleInitiateCheckout} className="h-14 px-12 w-full max-w-[380px] bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-lg font-black transition-all shadow-xl shadow-orange-200 flex items-center justify-center gap-3 mx-auto group">
                      {pageToRender.section4_cta_text || 'অর্ডার করতে চাই'}
                      <ArrowRight className="h-6 w-6 group-hover:translate-x-2 transition-transform" />
                   </Button>
@@ -1151,7 +1174,7 @@ export default function LandingPageView() {
                            <span>{pageToRender.section6_sticky_countdown || '24 Hours Only'}</span>
                         </div>
                      </div>
-                     <Button onClick={scrollToCheckout} className="bg-white text-[#ea580c] hover:bg-yellow-50 font-black rounded-lg px-10 py-4 text-lg flex items-center gap-3 shadow-2xl transition-all hover:scale-105 active:scale-95 group">
+                     <Button onClick={handleInitiateCheckout} className="bg-white text-[#ea580c] hover:bg-yellow-50 font-black rounded-lg px-10 py-4 text-lg flex items-center gap-3 shadow-2xl transition-all hover:scale-105 active:scale-95 group">
                         অর্ডার করুন <ShoppingBag className="h-5 w-5 group-hover:rotate-12 transition-transform" />
                      </Button>
                   </div>

@@ -80,7 +80,7 @@ const App = () => (
                   <DynamicFavicon />
                   <Routes>
                     {/* Public Store Routes - No auth required */}
-                    <Route path="/" element={<Index />} />
+                    <Route path="/" element={<LandingPageView />} />
                     <Route path="/shop" element={<ShopPage />} />
                     <Route path="/categories" element={<CategoriesPage />} />
                     <Route path="/category/:slug" element={<CategoryPage />} />
@@ -95,6 +95,7 @@ const App = () => (
                     <Route path="/terms" element={<TermsPage />} />
                     <Route path="/track-order" element={<TrackOrderPage />} />
                     <Route path="/lp/:slug?" element={<LandingPageView />} />
+                    <Route path="/:slug" element={<LandingPageView />} />
 
                     {/* Admin Auth Routes - No protection */}
                     <Route path="/admin/login" element={<AdminLoginPage />} />
