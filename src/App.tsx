@@ -94,7 +94,7 @@ const App = () => (
                     <Route path="/privacy" element={<PrivacyPage />} />
                     <Route path="/terms" element={<TermsPage />} />
                     <Route path="/track-order" element={<TrackOrderPage />} />
-                    <Route path="/lp/:slug" element={<LandingPageView />} />
+                    <Route path="/lp/:slug?" element={<LandingPageView />} />
 
                     {/* Admin Auth Routes - No protection */}
                     <Route path="/admin/login" element={<AdminLoginPage />} />

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { CheckCircle, Package, ArrowRight } from 'lucide-react';
-import { Layout } from '@/components/layout/Layout';
+
 import { useSiteSettings } from '@/contexts/SiteSettingsContext';
 import { Button } from '@/components/ui/button';
 import { useOrderByNumber } from '@/hooks/useOrders';
@@ -33,8 +33,9 @@ export default function OrderSuccessPage() {
   }, [order, settings.currency_code]);
 
   return (
-    <Layout>
-      <div className="container-shop section-padding">
+    <div className="min-h-screen flex flex-col bg-white">
+      <main className="flex-1">
+        <div className="container-shop section-padding">
         <div className="max-w-lg mx-auto text-center">
           <div className="w-20 h-20 rounded-full bg-success/10 flex items-center justify-center mx-auto mb-6">
             <CheckCircle className="h-10 w-10 text-success" />
@@ -77,18 +78,16 @@ export default function OrderSuccessPage() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/shop">
-              <Button className="btn-accent">
-                {t('cart.continueShopping')}
-                <ArrowRight className="h-4 w-4 ml-2" />
+            <Link to="/lp">
+              <Button className="btn-accent bg-[#ea580c] hover:bg-[#c2410c] text-white px-8 h-12 text-lg font-bold">
+                হোম পেজে ফিরে যান
+                <ArrowRight className="h-5 w-5 ml-2" />
               </Button>
-            </Link>
-            <Link to="/">
-              <Button variant="outline">{t('common.back')} {t('nav.home')}</Button>
             </Link>
           </div>
         </div>
-      </div>
-    </Layout>
+        </div>
+      </main>
+    </div>
   );
 }

@@ -44,22 +44,54 @@ export interface LandingPage {
   secondary_cta_text: string | null;
   countdown_end_date: string | null;
   offer_text: string | null;
+  
+  // Section 2
+  section2_badge?: string | null;
+  section2_title?: string | null;
+  section2_subtitle?: string | null;
+  section2_images?: string[];
+  section2_image?: string | null;
+  section2_overlay_text?: string | null;
+  section2_cta_text?: string | null;
+  section2_phone_text?: string | null;
+  
+  // Section 3
+  section3_badge?: string | null;
+  section3_title?: string | null;
+  
+  // Section 4
+  section4_title?: string | null;
+  section4_subtitle?: string | null;
+  section4_image?: string | null;
+  section4_cta_text?: string | null;
+  
+  // Section 5
+  section5_image?: string | null;
+  
+  // Section 6
+  section6_title?: string | null;
+  section6_subtitle?: string | null;
+  section6_packages?: any[];
+  section6_show_sticky_bar?: boolean;
+  section6_sticky_text?: string | null;
+  section6_sticky_countdown?: string | null;
+
   created_at: string;
   updated_at: string;
 }
 
 const mapLandingPage = (d: any): LandingPage => ({
   ...d,
-  how_to_use_cards: (d.how_to_use_cards as any) || [],
-  features: (d.features as any) || [],
-  benefits: (d.benefits as any) || [],
-  trust_badges: (d.trust_badges as any) || [],
+  how_to_use_cards: d.how_to_use_cards || [],
+  features: d.features || [],
+  benefits: d.benefits || [],
+  trust_badges: d.trust_badges || [],
+  section2_images: d.section2_images || [],
+  section6_packages: d.section6_packages || [],
   accent_color: d.accent_color || '#ef4444',
   video_title: d.video_title || 'Product Showcase',
   secondary_cta_text: d.secondary_cta_text || 'Buy Now',
-  video_url: d.video_url || null,
-  countdown_end_date: d.countdown_end_date || null,
-  offer_text: d.offer_text || null,
+  section6_show_sticky_bar: d.section6_show_sticky_bar ?? true,
 });
 
 export const useLandingPages = () => {
@@ -109,10 +141,13 @@ export const useCreateLandingPage = () => {
           features: JSON.parse(JSON.stringify(page.features)),
           benefits: JSON.parse(JSON.stringify(page.benefits)),
           trust_badges: JSON.parse(JSON.stringify(page.trust_badges)),
+          section2_images: JSON.parse(JSON.stringify(page.section2_images || [])),
+          section6_packages: JSON.parse(JSON.stringify(page.section6_packages || [])),
         } as any)
         .select()
-        .single();
+        .maybeSingle();
       if (error) throw error;
+      if (!data) throw new Error('Failed to create landing page - check permissions');
       return data;
     },
     onSuccess: () => {
@@ -132,14 +167,17 @@ export const useUpdateLandingPage = () => {
       if (page.features) payload.features = JSON.parse(JSON.stringify(page.features));
       if (page.benefits) payload.benefits = JSON.parse(JSON.stringify(page.benefits));
       if (page.trust_badges) payload.trust_badges = JSON.parse(JSON.stringify(page.trust_badges));
+      if (page.section2_images) payload.section2_images = JSON.parse(JSON.stringify(page.section2_images));
+      if (page.section6_packages) payload.section6_packages = JSON.parse(JSON.stringify(page.section6_packages));
       
       const { data, error } = await supabase
         .from('landing_pages')
         .update(payload)
         .eq('id', id)
         .select()
-        .single();
+        .maybeSingle();
       if (error) throw error;
+      if (!data) throw new Error('Failed to update landing page - check permissions');
       return data;
     },
     onSuccess: () => {

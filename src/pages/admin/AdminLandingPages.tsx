@@ -14,7 +14,7 @@ import { useProducts } from '@/hooks/useShopData';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
-import { ImageUpload } from '@/components/admin/ImageUpload';
+import { ImageUpload, MultiImageUpload } from '@/components/admin/ImageUpload';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Plus, Pencil, Trash2, ExternalLink, X, Copy, Palette, Video, ListChecks, ShieldCheck, Timer } from 'lucide-react';
@@ -45,6 +45,11 @@ const emptyForm = (): Omit<LandingPage, 'id' | 'created_at' | 'updated_at'> => (
   secondary_cta_text: 'Buy Now',
   countdown_end_date: null,
   offer_text: '',
+  section2_images: [],
+  section4_title: '',
+  section4_subtitle: '',
+  section4_image: '',
+  section4_cta_text: '',
 });
 
 export default function AdminLandingPages() {
@@ -86,6 +91,11 @@ export default function AdminLandingPages() {
       secondary_cta_text: p.secondary_cta_text || 'Buy Now',
       countdown_end_date: p.countdown_end_date,
       offer_text: p.offer_text || '',
+      section2_images: p.section2_images || [],
+      section4_title: p.section4_title || '',
+      section4_subtitle: p.section4_subtitle || '',
+      section4_image: p.section4_image || '',
+      section4_cta_text: p.section4_cta_text || '',
     });
     setIsOpen(true);
   };
@@ -306,6 +316,25 @@ export default function AdminLandingPages() {
               </div>
             </section>
 
+            {/* 2.5 Section 2 (Product Showcase) */}
+            <section className="space-y-4">
+              <div className="flex items-center gap-2 border-b pb-2">
+                <Palette className="h-5 w-5 text-accent" />
+                <h3 className="font-semibold uppercase text-sm tracking-wider">Premium Product Showcase (Section 2)</h3>
+              </div>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Product Slider Images</label>
+                  <MultiImageUpload 
+                    values={form.section2_images || []} 
+                    onChange={v => setForm(prev => ({ ...prev, section2_images: v }))} 
+                    folder="landing-pages" 
+                  />
+                  <p className="text-xs text-muted-foreground">Upload images for the sliding product showcase. If empty, it will use the images from the selected product.</p>
+                </div>
+              </div>
+            </section>
+
             {/* 3. Video Showcase */}
             <section className="space-y-4">
               <div className="flex items-center gap-2 border-b pb-2">
@@ -427,6 +456,35 @@ export default function AdminLandingPages() {
                     </div>
                   </div>
                 ))}
+              </div>
+            </section>
+
+            {/* 7.5 Section 4 (Quality Guarantee) */}
+            <section className="space-y-4 bg-secondary/20 p-4 rounded-xl">
+              <div className="flex items-center gap-2 border-b pb-2">
+                <ShieldCheck className="h-5 w-5 text-accent" />
+                <h3 className="font-semibold uppercase text-sm tracking-wider">Quality Guarantee (Section 4)</h3>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Guarantee Title</label>
+                    <Input value={form.section4_title || ''} onChange={e => setForm(prev => ({ ...prev, section4_title: e.target.value }))} placeholder="e.g. ফলাফল না পেলে মূল্য ফেরত!" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Guarantee Subtitle</label>
+                    <textarea value={form.section4_subtitle || ''} onChange={e => setForm(prev => ({ ...prev, section4_subtitle: e.target.value }))} className="input-shop min-h-[80px] p-2 text-sm" placeholder="e.g. সেবনের মাত্র ১ ঘণ্টার মধ্যে..." />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">CTA Text</label>
+                    <Input value={form.section4_cta_text || ''} onChange={e => setForm(prev => ({ ...prev, section4_cta_text: e.target.value }))} placeholder="e.g. অর্ডার করতে চাই" />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Certificate/Guarantee Image</label>
+                  <ImageUpload value={form.section4_image || ''} onChange={v => setForm(prev => ({ ...prev, section4_image: v }))} folder="landing-pages" />
+                  <p className="text-xs text-muted-foreground mt-2">Upload a certificate or guarantee badge image.</p>
+                </div>
               </div>
             </section>
 
