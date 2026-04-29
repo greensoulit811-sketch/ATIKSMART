@@ -1077,7 +1077,7 @@ export default function LandingPageView() {
          )}
 
          {/* --- Pricing & Packages (6th Section) --- */}
-         <section className="py-12 sm:py-24 px-4 bg-gradient-to-b from-[#fff9f2] to-white relative overflow-hidden">
+         <section className="py-12 sm:py-16 px-4 bg-gradient-to-b from-[#fff9f2] to-white relative overflow-hidden">
             <div className="max-w-[1200px] mx-auto space-y-12 relative z-10">
                <div className="text-center space-y-3">
                   <h2 className="text-3xl lg:text-4xl font-serif font-black text-[#c2410c] uppercase tracking-tight">
@@ -1139,7 +1139,7 @@ export default function LandingPageView() {
                         <Truck className="h-6 w-6 sm:h-8 sm:w-8 text-[#ea580c]" />
                      </div>
                      <p className="text-lg sm:text-2xl lg:text-3xl font-black italic uppercase tracking-tight text-center md:text-left">
-                        {pageToRender.section6_sticky_text?.split('!')[0]} <span className="text-yellow-400">{pageToRender.section6_sticky_text?.includes('!') ? pageToRender.section6_sticky_text.split('!')[1] || 'সীমিত সময়ের জন্য ফ্রি ডেলিভারি!' : 'সীমিত সময়ের জন্য ফ্রি ডেলিভারি!'}</span>
+                        {pageToRender.section6_sticky_text?.split('!')[0]} <span className="text-white">{pageToRender.section6_sticky_text?.includes('!') ? pageToRender.section6_sticky_text.split('!')[1] || 'সীমিত সময়ের জন্য ফ্রি ডেলিভারি!' : 'সীমিত সময়ের জন্য ফ্রি ডেলিভারি!'}</span>
                      </p>
                   </div>
 
@@ -1148,7 +1148,7 @@ export default function LandingPageView() {
                         <span className="text-[11px] font-bold uppercase opacity-70 tracking-widest">অফার শেষ হতে বাকি</span>
                         <div className="flex items-center gap-3 font-mono text-3xl font-black text-yellow-400">
                            <Timer className="h-6 w-6" />
-                           <span>{pageToRender.section6_sticky_countdown || '01:10:37'}</span>
+                           <span>{pageToRender.section6_sticky_countdown || '24 Hours Only'}</span>
                         </div>
                      </div>
                      <Button onClick={scrollToCheckout} className="bg-white text-[#ea580c] hover:bg-yellow-50 font-black rounded-lg px-10 py-4 text-lg flex items-center gap-3 shadow-2xl transition-all hover:scale-105 active:scale-95 group">
